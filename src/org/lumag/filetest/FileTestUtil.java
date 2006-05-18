@@ -113,6 +113,7 @@ public class FileTestUtil {
 			testCase.setName("testFile");
 			testCase.setModule(module);
 			testCase.setFile(f);
+			testCase.setConfig(config);
 			suite.addTest(testCase);
 		}
 		
