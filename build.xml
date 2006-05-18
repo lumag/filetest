@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [<!ENTITY buildfile SYSTEM "file:./build-user.xml">]>
+<project basedir="." default="build" name="filetest">
+	<!-- Loads global properties for this build -->
+	<property file="build.properties"/>
+
+	<path id="project.classpath">
+		<pathelement location="bin"/>
+	</path>
+	<!--	<path id="tests.classpath">
+		<path refid="project.classpath"/>
+		<pathelement location="bin-tests"/>
+		<pathelement location="${JUNIT_HOME}/junit.jar"/>
+	</path>	-->
+
+	<target name="init">
+		<mkdir dir="bin"/>
+	</target>
+	<target name="clean">
+		<delete dir="bin"/>
+		<delete dir="docs/api" />
+	</target>
+	<target depends="init" name="build">
+		<echo message="${ant.project.name}: ${ant.file}"/>
+
+		<javac debug="${build.debug}" destdir="bin">
+			<src path="src"/>
+		</javac>
+		<copy todir="bin">
+			<fileset dir="src" includes="**/*.properties" />
+		</copy>
+	</target>
+	<target name="javadoc" depends="init">
+		<javadoc destdir="docs/api" version="true" use="true" author="true">
+			<fileset dir="src"/>
+		</javadoc>
+	</target>
+	<target name="jar" depends="build">
+		<jar destfile="${ant.project.name}-${project.version}.jar">
+			<fileset dir="bin" />
+			<fileset file="COPYING" />
+			<manifest>
+				<attribute name="Sealed" value="true" />
+			</manifest>
+		</jar>
+	</target>
+	<target name="srczip" >
+		<zip destfile="${ant.project.name}-${project.version}-src.zip" >
+			<zipfileset prefix="${ant.project.name}-${project.version}" dir="." includes="src/**"/>
+			<zipfileset prefix="${ant.project.name}-${project.version}" dir="." includes="tests/**" excludes="tests/temp/**"/>
+			<zipfileset prefix="${ant.project.name}-${project.version}" dir="." includes="docs/**" excludes="docs/api/**"/>
+			<zipfileset prefix="${ant.project.name}-${project.version}" dir="." includes="build.*"/>
+			<zipfileset prefix="${ant.project.name}-${project.version}" dir="." includes="COPYING"/>
+			<zipfileset prefix="${ant.project.name}-${project.version}" dir="." includes="TODO"/>
+		</zip>
+	</target>
+	<target name="help">
+		<echo message="Please run: $ ant -v -projecthelp"/>
+	</target>
+</project>
