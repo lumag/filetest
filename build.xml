@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE project [<!ENTITY buildfile SYSTEM "file:./build-user.xml">]>
-<project basedir="." default="build" name="filetest">
+<project basedir="." default="jar" name="filetest">
 	<!-- Loads global properties for this build -->
 	<property file="build.properties"/>
 
